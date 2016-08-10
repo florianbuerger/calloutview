@@ -31,7 +31,7 @@
 NSTimeInterval const kSMCalloutViewRepositionDelayForUIScrollView = 1.0/3.0;
 
 @interface SMCalloutView ()
-@property (nonatomic, strong) UIButton *containerView; // for masking and interaction
+@property (nonatomic, strong) UIView *containerView; // for masking and interaction
 @property (nonatomic, strong) UILabel *titleLabel, *subtitleLabel;
 @property (nonatomic, assign) SMCalloutArrowDirection currentArrowDirection;
 @property (nonatomic, assign) BOOL popupCancelled;
@@ -58,32 +58,12 @@ NSTimeInterval const kSMCalloutViewRepositionDelayForUIScrollView = 1.0/3.0;
         self.presentAnimation = SMCalloutAnimationBounce;
         self.dismissAnimation = SMCalloutAnimationFade;
         self.backgroundColor = [UIColor clearColor];
-        self.containerView = [UIButton new];
+        self.containerView = [UIView new];
         self.containerView.isAccessibilityElement = NO;
         self.isAccessibilityElement = NO;
         self.contentViewInset = UIEdgeInsetsMake(12, 12, 12, 12);
-
-        [self.containerView addTarget:self action:@selector(highlightIfNecessary) forControlEvents:UIControlEventTouchDown | UIControlEventTouchDragInside];
-        [self.containerView addTarget:self action:@selector(unhighlightIfNecessary) forControlEvents:UIControlEventTouchDragOutside | UIControlEventTouchCancel | UIControlEventTouchUpOutside | UIControlEventTouchUpInside];
-        [self.containerView addTarget:self action:@selector(calloutClicked) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
-}
-
-- (BOOL)supportsHighlighting {
-    if (![self.delegate respondsToSelector:@selector(calloutViewClicked:)])
-        return NO;
-    if ([self.delegate respondsToSelector:@selector(calloutViewShouldHighlight:)])
-        return [self.delegate calloutViewShouldHighlight:self];
-    return YES;
-}
-
-- (void)highlightIfNecessary { if (self.supportsHighlighting) self.backgroundView.highlighted = YES; }
-- (void)unhighlightIfNecessary { if (self.supportsHighlighting) self.backgroundView.highlighted = NO; }
-
-- (void)calloutClicked {
-    if ([self.delegate respondsToSelector:@selector(calloutViewClicked:)])
-        [self.delegate calloutViewClicked:self];
 }
 
 - (UIView *)titleViewOrDefault {

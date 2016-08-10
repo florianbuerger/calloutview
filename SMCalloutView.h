@@ -163,13 +163,6 @@ extern NSTimeInterval const kSMCalloutViewRepositionDelayForUIScrollView;
 @protocol SMCalloutViewDelegate <NSObject>
 @optional
 
-/// Controls whether the callout "highlights" when pressed. default YES. You must also respond to @c -calloutViewClicked below.
-/// Not honored by @c SMClassicCalloutView.
-- (BOOL)calloutViewShouldHighlight:(SMCalloutView *)calloutView;
-
-/// Called when the callout view is clicked. Not honored by @c SMClassicCalloutView.
-- (void)calloutViewClicked:(SMCalloutView *)calloutView;
-
 /**
  Called when the callout view detects that it will be outside the constrained view when it appears, 
  or if the target rect was already outside the constrained view. You can implement this selector 
